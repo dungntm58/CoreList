@@ -7,9 +7,6 @@
 
 import UIKit
 import DifferenceKit
-#if canImport(Combine)
-import Combine
-#endif
 
 extension TableView {
     enum DIC {
@@ -32,10 +29,6 @@ extension TableView {
 
         private lazy var adapter = createAdapter()
         open var store: Store
-#if canImport(Combine)
-        @usableFromInline
-        var adapterCancellable: Any?
-#endif
 
         fileprivate var generator: PrototypeGenerator {
             if let generator = DIC.generator[viewHashValue] as? PrototypeGenerator {
@@ -56,6 +49,7 @@ extension TableView {
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue
             self.store = store
+            self.adapter.differenceSections = sectionsGenerator(tableView, store).sections
             tableView.delegate = adapter
             tableView.dataSource = adapter
         }
@@ -68,6 +62,7 @@ extension TableView {
             self.tableView = tableView
             self.viewHashValue = tableView.hashValue
             self.store = store
+            self.adapter.differenceSections = sectionsGenerator(tableView, store).sections
             tableView.delegate = adapter
             tableView.dataSource = adapter
         }
@@ -123,59 +118,15 @@ extension TableView {
 
         @inlinable
         open func createAdapter() -> Adapter {
-#if canImport(Combine)
-            if #available(iOS 13.0, *) {
-                let adapter = Adapter()
-                adapterCancellable = adapter
-                    .objectWillChange
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] in
-                        self?.reload()
-                    }
-                return adapter
-            } else {
-                return .init()
-            }
-#else
             .init()
-#endif
         }
     }
 
     @objc(TableViewAdapter)
     open class Adapter: NSObject {
-#if canImport(Combine)
-        var differenceSections: [AnySection] {
-            get {
-                if #available(iOS 13.0, *) {
-                    return _13differenceSections
-                } else {
-                    return _differenceSections
-                }
-            }
-            set {
-                if #available(iOS 13.0, *) {
-                    _13differenceSections = newValue
-                } else {
-                    _differenceSections = newValue
-                }
-            }
-        }
-
-        @available(iOS 13.0, *)
-        @Published var _13differenceSections: [AnySection] = []
-
-        var _differenceSections: [AnySection] = []
-#else
         var differenceSections: [AnySection] = []
-#endif
     }
 }
-
-#if canImport(Combine)
-@available(iOS 13.0, *)
-extension TableView.Adapter: ObservableObject {}
-#endif
 
 extension TableView.Adapter: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {

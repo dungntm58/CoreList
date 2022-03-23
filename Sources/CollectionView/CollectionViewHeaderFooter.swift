@@ -120,7 +120,7 @@ extension CollectionView {
             self.hasFixedSize = true
         }
 
-        public func hasSizeFixed(_ hasSizeFixed: Bool) -> Self {
+        public func hasFixedSize(_ hasFixedSize: Bool) -> Self {
             var other = self
             other.hasFixedSize = hasFixedSize
             return other

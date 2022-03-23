@@ -114,10 +114,10 @@ extension TableView {
                 return components.flatMap { $0.asCells() }
             }
             let fromIndex = header == nil ? 0 : 1
-            let toIndex = components.count - 1 - (footer == nil ? 0 : 1)
+            let endIndex = components.count - (footer == nil ? 0 : 1)
             return SectionComponent(
                 header: header,
-                cells: components[fromIndex...toIndex].flatMap { $0.asCells() },
+                cells: components[fromIndex..<endIndex].flatMap { $0.asCells() },
                 footer: footer
             )
         }
