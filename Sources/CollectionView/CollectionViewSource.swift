@@ -20,7 +20,7 @@ extension CollectionView {
         public typealias PrototypeSectionGenerateFunction = (UICollectionView, Store) -> CollectionViewSectionComponent
 
         private let sectionsGenerator: PrototypeSectionBlockGenerateFunction
-        private weak var collectionView: UICollectionView?
+        public private(set) weak var collectionView: UICollectionView?
 
         private var viewHashValue: Int {
             didSet {

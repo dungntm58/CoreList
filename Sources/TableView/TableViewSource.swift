@@ -19,7 +19,7 @@ extension TableView {
         public typealias RowAnimation = UITableView.RowAnimation
 
         private var sectionsGenerator: PrototypeSectionBlockGenerateFunction
-        private weak var tableView: UITableView?
+        public private(set) weak var tableView: UITableView?
 
         private var viewHashValue: Int {
             didSet {
