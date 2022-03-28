@@ -98,9 +98,9 @@ extension TableView {
         ) {
             let stagedChangeset = StagedChangeset(source: adapter.differenceSections, target: generator.build().sections)
             generator.tableView?.reload(using: stagedChangeset,
-                              deleteSectionsAnimation: deleteRowsAnimation(),
-                              insertSectionsAnimation: insertRowsAnimation(),
-                              reloadSectionsAnimation: reloadRowsAnimation(),
+                              deleteSectionsAnimation: deleteSectionsAnimation(),
+                              insertSectionsAnimation: insertSectionsAnimation(),
+                              reloadSectionsAnimation: reloadSectionsAnimation(),
                               deleteRowsAnimation: deleteRowsAnimation(),
                               insertRowsAnimation: insertRowsAnimation(),
                               reloadRowsAnimation: reloadRowsAnimation(),
