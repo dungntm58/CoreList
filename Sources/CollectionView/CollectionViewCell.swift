@@ -237,11 +237,7 @@ extension CollectionView {
 
         public init(size: CGSize) {
             self.id = .init()
-#if SWIFT_PACKAGE && swift(>=5.3)
-            self.type = .nib(nibName: "LoadingCollectionViewCell", bundle: .module)
-#else
-            self.type = .nib(nibName: "LoadingCollectionViewCell", bundle: Bundle(for: LoadingCollectionViewCell.classForCoder()))
-#endif
+            self.type = .class(class: LoadingCollectionViewCell.self)
             self.reuseIdentifier = type.identifier
             self.estimatedSize = size
             self.model = nil

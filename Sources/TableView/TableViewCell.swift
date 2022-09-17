@@ -204,11 +204,7 @@ extension TableView {
 
         public init() {
             self.id = .init()
-#if SWIFT_PACKAGE && swift(>=5.3)
-            self.type = .nib(nibName: "LoadingTableViewCell", bundle: .module)
-#else
-            self.type = .nib(nibName: "LoadingTableViewCell", bundle: Bundle(for: LoadingTableViewCell.classForCoder()))
-#endif
+            self.type = .class(class: LoadingTableViewCell.self)
             self.reuseIdentifier = type.identifier
             self.height = UITableView.automaticDimension
             self.model = nil

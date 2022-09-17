@@ -9,7 +9,17 @@
 import UIKit
 
 public class LoadingCollectionViewCell: UICollectionViewCell, LoadingAnimatable {
-    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    lazy var activityView = UIActivityIndicatorView()
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
 
     public func startAnimation() {
         activityView.startAnimating()
@@ -17,5 +27,16 @@ public class LoadingCollectionViewCell: UICollectionViewCell, LoadingAnimatable 
 
     public func stopAnimation() {
         activityView.stopAnimating()
+    }
+
+    private func commonInit() {
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(activityView)
+        NSLayoutConstraint.activate([
+            activityView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            activityView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            activityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            activityView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 }
