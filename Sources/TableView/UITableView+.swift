@@ -9,7 +9,7 @@ import UIKit
 
 extension UITableView {
     @inlinable
-    public func register<Cell>(cell: Cell) where Cell: TableViewCell {
+    public func register(cell: CellRegisterable)  {
         switch cell.type {
         case .default:
             register(UITableViewCell.self, forCellReuseIdentifier: cell.reuseIdentifier)
@@ -21,7 +21,7 @@ extension UITableView {
     }
 
     @inlinable
-    public func register<HeaderFooter>(headerFooter: HeaderFooter) where HeaderFooter: TableViewHeaderFooter {
+    public func register(headerFooter: HeaderFooterRegisterable) {
         switch headerFooter.type {
         case .default:
             register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: headerFooter.reuseIdentifier)
@@ -34,7 +34,7 @@ extension UITableView {
 
     // swiftlint:disable force_cast
     @inlinable
-    public func dequeue<T, Cell>(of type: T.Type, cell: Cell, for indexPath: IndexPath) -> T where T: UITableViewCell, Cell: TableViewCell {
+    public func dequeue<T>(of type: T.Type, cell: CellRegisterable, for indexPath: IndexPath) -> T where T: UITableViewCell {
         switch cell.type {
         case .nib(let nibName, _):
             precondition(String(describing: T.self) != nibName, "Cell nib was not registered")
@@ -48,17 +48,17 @@ extension UITableView {
     // swiftlint:enable force_cast
 
     @inlinable
-    public func dequeue<Cell>(cell: Cell, for indexPath: IndexPath) -> UITableViewCell where Cell: TableViewCell {
+    public func dequeue(cell: CellRegisterable, for indexPath: IndexPath) -> UITableViewCell {
         dequeueReusableCell(withIdentifier: cell.reuseIdentifier, for: indexPath)
     }
 
     @inlinable
-    func dequeue<Cell>(cell: Cell) -> UITableViewCell? where Cell: TableViewCell {
+    func dequeue(cell: CellRegisterable) -> UITableViewCell? {
         dequeueReusableCell(withIdentifier: cell.reuseIdentifier)
     }
 
     @inlinable
-    public func dequeue<T, HeaderFooter>(of type: T.Type, headerFooter: HeaderFooter) -> T? where T: UITableViewHeaderFooterView, HeaderFooter: TableViewHeaderFooter {
+    public func dequeue<T>(of type: T.Type, headerFooter: HeaderFooterRegisterable) -> T? where T: UITableViewHeaderFooterView {
         switch headerFooter.type {
         case .nib(let nibName, _):
             precondition(String(describing: T.self) != nibName, "Header footer nib was not registered")
@@ -71,7 +71,7 @@ extension UITableView {
     }
 
     @inlinable
-    public func dequeue<HeaderFooter>(headerFooter: HeaderFooter) -> UITableViewHeaderFooterView? where HeaderFooter: TableViewHeaderFooter {
+    public func dequeue(headerFooter: HeaderFooterRegisterable) -> UITableViewHeaderFooterView? {
         dequeueReusableHeaderFooterView(withIdentifier: headerFooter.reuseIdentifier)
     }
 

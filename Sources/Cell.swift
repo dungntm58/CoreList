@@ -54,19 +54,23 @@ public protocol CellRegisterable {
     var reuseIdentifier: String { get }
 }
 
+public protocol HeaderFooterRegisterable: CellRegisterable {
+    var position: HeaderFooterPosition { get }
+}
+
 extension CellRegisterable {
     @inlinable
     public var reuseIdentifier: String { type.identifier }
 }
 
-public protocol ViewAssociatable {
+public protocol ViewAssociatable<View> {
     associatedtype View: UIView
 
     typealias IndexPathInteractiveHandler = (View, IndexPath) -> Void
     typealias SectionInteractiveHandler = (View, Int) -> Void
 }
 
-public protocol CellBinding: ViewAssociatable {
+public protocol CellBinding<Model>: ViewAssociatable {
     associatedtype Model
 
     typealias BindingFunction = (Model?, View, IndexPath) -> Void

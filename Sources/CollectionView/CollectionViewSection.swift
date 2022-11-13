@@ -14,7 +14,7 @@ import UIKit
     public static var sectionMinimumInteritemSpacing: CGFloat = 0
 }
 
-public protocol CollectionViewSection {
+public protocol CollectionViewSection<ID> {
     associatedtype ID: Hashable
 
     var id: ID { get }

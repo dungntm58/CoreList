@@ -7,9 +7,7 @@
 
 import UIKit
 
-public protocol CollectionViewHeaderFooter: CollectionViewSectionComponent, CellRegisterable, CellBinding, CollectionViewCellPresentable where View: UICollectionReusableView {
-
-    var position: HeaderFooterPosition { get }
+public protocol CollectionViewHeaderFooter: CollectionViewSectionComponent, HeaderFooterRegisterable, CellBinding, CollectionViewCellPresentable where View: UICollectionReusableView {
 }
 
 extension CollectionViewHeaderFooter {

@@ -7,12 +7,11 @@
 
 import UIKit
 
-public protocol TableViewHeaderFooter: TableViewSectionComponent, CellRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {
+public protocol TableViewHeaderFooter: TableViewSectionComponent, HeaderFooterRegisterable, HeaderFooterPresentable where View: UITableViewHeaderFooterView {
     associatedtype Model
 
     typealias BindingFunction = (Model?, View, Int) -> Void
 
-    var position: HeaderFooterPosition { get }
     var height: CGFloat { get }
     var title: String? { get }
     var model: Model? { get }

@@ -9,7 +9,7 @@ import UIKit
 
 extension UICollectionView {
     @inlinable
-    public func register<Cell>(cell: Cell) where Cell: CollectionViewCell {
+    public func register(cell: CellRegisterable) {
         switch cell.type {
         case .default:
             register(UICollectionView.self, forCellWithReuseIdentifier: cell.reuseIdentifier)
@@ -21,7 +21,7 @@ extension UICollectionView {
     }
 
     @inlinable
-    public func register<HeaderFooter>(headerFooter: HeaderFooter) where HeaderFooter: CollectionViewHeaderFooter {
+    public func register(headerFooter: HeaderFooterRegisterable) {
         let position = headerFooter.position
         switch headerFooter.type {
         case .default:
@@ -50,7 +50,7 @@ extension UICollectionView {
 
     // swiftlint:disable force_cast
     @inlinable
-    public func dequeue<T, Cell>(of type: T.Type, cell: Cell, for indexPath: IndexPath) -> T where T: UICollectionViewCell, Cell: CollectionViewCell {
+    public func dequeue<T>(of type: T.Type, cell: CellRegisterable, for indexPath: IndexPath) -> T where T: UICollectionViewCell {
         switch cell.type {
         case .nib(let nibName, _):
             precondition(String(describing: T.self) != nibName, "Cell nib was not registered")
@@ -64,13 +64,13 @@ extension UICollectionView {
     // swiftlint:enable force_cast
 
     @inlinable
-    public func dequeue<Cell>(cell: Cell, for indexPath: IndexPath) -> UICollectionViewCell where Cell: CollectionViewCell {
+    public func dequeue(cell: CellRegisterable, for indexPath: IndexPath) -> UICollectionViewCell {
         dequeueReusableCell(withReuseIdentifier: cell.reuseIdentifier, for: indexPath)
     }
 
     // swiftlint:disable force_cast
     @inlinable
-    public func dequeue<T, HeaderFooter>(of type: T.Type, headerFooter: HeaderFooter, for indexPath: IndexPath) -> T where T: UICollectionReusableView, HeaderFooter: CollectionViewHeaderFooter {
+    public func dequeue<T>(of type: T.Type, headerFooter: HeaderFooterRegisterable, for indexPath: IndexPath) -> T where T: UICollectionReusableView {
         switch headerFooter.type {
         case .nib(let nibName, _):
             precondition(String(describing: T.self) != nibName, "Header footer nib was not registered")
@@ -89,7 +89,7 @@ extension UICollectionView {
     // swiftlint:enable force_cast
 
     @inlinable
-    public func dequeue<HeaderFooter>(headerFooter: HeaderFooter, for indexPath: IndexPath) -> UICollectionReusableView where HeaderFooter: CollectionViewHeaderFooter {
+    public func dequeue(headerFooter: HeaderFooterRegisterable, for indexPath: IndexPath) -> UICollectionReusableView {
         switch headerFooter.position {
         case .header:
             return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerFooter.reuseIdentifier, for: indexPath)
