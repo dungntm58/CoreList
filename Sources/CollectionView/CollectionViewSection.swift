@@ -136,6 +136,10 @@ extension CollectionView.Section where ID == UniqueIdentifier {
     }
 }
 
+extension CollectionView.Section: CollectionViewSectionBlock {
+    public var sections: [CollectionView.AnySection] { [eraseToAny()] }
+}
+
 public protocol CollectionViewSectionBlock {
     var sections: [CollectionView.AnySection] { get }
 }

@@ -102,6 +102,10 @@ extension TableView.Section where ID == UniqueIdentifier {
     }
 }
 
+extension TableView.Section: TableViewSectionBlock {
+    public var sections: [TableView.AnySection] { [eraseToAny()] }
+}
+
 public protocol TableViewSectionBlock {
     var sections: [TableView.AnySection] { get }
 }
